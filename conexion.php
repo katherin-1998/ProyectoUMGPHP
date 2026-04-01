@@ -1,10 +1,10 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "biometricumg"; 
+$username   = "root";   // tu usuario MySQL
+$password   = "";       // tu contraseña MySQL (si no tienes, déjalo vacío)
+$database   = "sistema_umg"; 
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $database);
 
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
