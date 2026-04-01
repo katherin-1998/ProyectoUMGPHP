@@ -1,0 +1,108 @@
+/* --- RESET GENERAL --- */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    /* Fondo azul degradado original */
+    background: linear-gradient(135deg, #002d57 0%, #000000 100%); 
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Organiza header arriba, main abajo */
+}
+
+/* --- ENCABEZADO LIMPIO Y PROMINENTE --- */
+.header-umg-limpio {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo muy suave para contraste */
+    padding: 20px 0; /* Más espacio vertical para que se note el logo */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contenedor-header-centrado {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente todo el bloque */
+    align-items: center; /* Centra verticalmente logo y texto */
+    gap: 30px; /* Espacio grande entre logo y nombre */
+}
+
+.logo-umg-grande {
+    height: 100px; /* Logo notablemente más grande */
+    width: auto;
+    filter: drop-shadow(0px 0px 10px rgba(255,255,255,0.3)); /* Resplandor suave */
+}
+
+.nombre-universidad-grande {
+    color: white;
+    font-size: 2.2rem; /* Texto grande y legible */
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* --- CENTRADO DEL FORMULARIO BLANCO --- */
+.main-login-azul {
+    flex-grow: 1; /* Ocupa todo el espacio debajo del header */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra el formulario vertical y horizontalmente */
+    padding: 20px;
+}
+
+.contenedor__todo {
+    width: 100%;
+    max-width: 400px;
+}
+
+.contenedor__login-register form {
+    width: 100%;
+    padding: 50px 30px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+}
+
+.contenedor__login-register form h2 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #003366; /* Azul UMG */
+}
+
+.contenedor__login-register form input {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    background: #F2F2F2;
+    font-size: 16px;
+    outline: none;
+    border-radius: 8px;
+}
+
+.contenedor__login-register form button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 40px;
+    border: none;
+    font-size: 16px;
+    background: #e30613; /* Rojo UMG */
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    border-radius: 8px;
+    transition: all 300ms;
+}
+
+.contenedor__login-register form button:hover {
+    background: #b3050f;
+    transform: translateY(-2px);
+}
