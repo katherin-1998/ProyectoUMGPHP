@@ -1,10 +1,8 @@
 <?php
 //session_start();
-
-// Seguridad: si no hay sesión activa, regresa al login
 //if(!isset($_SESSION['usuario'])){
-   // header("Location: login.php");
-   // exit();
+//    header("Location: login.php");
+//    exit();
 //}
 //include("conexion.php");
 ?>
@@ -42,7 +40,8 @@
                 <li class="nav-item"><a href="#" class="nav-link">Restricciones</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Gestión de cursos</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Reportes por puerta</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Reportes por salón</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteSalon()">Reportes por salón</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteFecha()">Reportes por fecha y salón</a></li>
             </ul>
         </div>
 
@@ -54,7 +53,6 @@
 
             <!-- Área dinámica -->
             <div id="contenido">
-                <!-- Dashboard por defecto -->
                 <h2>Bienvenido al sistema</h2>
                 <p><?php echo date("l, d F Y"); ?></p>
                 <div class="alert alert-info text-dark">
@@ -83,11 +81,44 @@ function mostrarDashboard() {
 }
 
 function mostrarRegistro() {
-    // Cargar tabla desde archivo PHP externo
     fetch("tabla_registro.php")
         .then(res => res.text())
         .then(html => {
             document.getElementById("contenido").innerHTML = html;
+        });
+}
+
+function mostrarReporteSalon() {
+    fetch("php/reporte_salon/index.php")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+
+            // Ejecutar el script inline que viene dentro del HTML cargado
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+            tempDiv.querySelectorAll("script").forEach(oldScript => {
+                const newScript = document.createElement("script");
+                newScript.textContent = oldScript.textContent;
+                document.body.appendChild(newScript);
+            });
+        });
+}
+
+function mostrarReporteFecha() {
+    fetch("php/reporte_salon/reporte_fecha.php")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+
+            // Re-ejecutar scripts inline (necesario porque innerHTML no los activa)
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+            tempDiv.querySelectorAll("script").forEach(oldScript => {
+                const newScript = document.createElement("script");
+                newScript.textContent = oldScript.textContent;
+                document.body.appendChild(newScript);
+            });
         });
 }
 </script>
