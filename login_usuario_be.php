@@ -6,18 +6,18 @@ session_start();
 include("conexion.php"); 
 
 // Capturamos los datos que el usuario escribió en el formulario
-$identificador = $_POST['identificador']; // Ej: ADMIN-001, PROF-001, 3590-24-00001
+$identificador = $_POST['identificador']; // Ej: ADMIN-001, PROF-001
 $contrasena    = $_POST['contrasena'];    // Contraseña que escribió el usuario
 
 // Construimos la consulta SQL
 // Buscamos al usuario en la tabla siu_usuario
-// y traemos también el tipo de usuario (ESTUDIANTE, PROFESOR, ADMIN, SEGURIDAD)
+// y traemos también el tipo de usuario (PROFESOR, ADMIN)
 // usando INNER JOIN con la tabla siu_tipo_usuario
 // Solo buscamos usuarios activos (usu_activo = 1)
 $query = "SELECT u.*, t.tiu_descripcion 
           FROM siu_usuario u
           INNER JOIN siu_tipo_usuario t ON u.tiu_tipo_usuario = t.tiu_tipo_usuario
-          WHERE u.usu_carnet = '$identificador'
+          WHERE u.usu_identificador = '$identificador'
           AND u.usu_activo = 1";
 
 // Ejecutamos la consulta en la base de datos

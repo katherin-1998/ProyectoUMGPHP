@@ -25,31 +25,29 @@ $_SESSION['usu_id']        = $usuario['usu_usuario'];
 $_SESSION['usu_nombre']    = $usuario['usu_nombre'];
 $_SESSION['usu_apellido']  = $usuario['usu_apellido'];
 $_SESSION['usu_correo']    = $usuario['usu_correo'];
-$_SESSION['usu_carnet']    = $usuario['usu_carnet'];
+// usu_identificador es el carnet/codigo del usuario en la tabla siu_usuario
+$_SESSION['usu_carnet']    = $usuario['usu_identificador'];
 $_SESSION['usu_telefono']  = $usuario['usu_telefono'];
 $_SESSION['usu_foto']      = $usuario['usu_foto'];
 $_SESSION['usu_seccion']   = $usuario['usu_seccion'];
 $_SESSION['usu_tipo']      = $usuario['tiu_tipo_usuario'];
 $_SESSION['usu_tipo_desc'] = $usuario['tiu_descripcion'];
 $_SESSION['usu_carrera']   = $usuario['car_nombre'];
-$_SESSION['usu_telefono']  = $usuario['usu_telefono'];
 
 // Redirigimos según el tipo de usuario
+// Solo existen dos tipos: ADMIN y PROFESOR
 switch($usuario['tiu_tipo_usuario']){
-    case 1: // ESTUDIANTE
-        header("Location: estudiante.php");
-        break;
     case 2: // PROFESOR
         header("Location: profesor.php");
         break;
     case 3: // ADMIN
         header("Location: index.php");
         break;
-    case 4: // SEGURIDAD
-        header("Location: seguridad.php");
-        break;
-    default:
-        header("Location: login.php");
+    default: // Cualquier otro tipo no tiene acceso
+        echo '<script>
+            alert("No tienes permiso para acceder al sistema");
+            window.location = "login.php";
+        </script>';
         break;
 }
 exit;
