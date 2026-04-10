@@ -2,18 +2,33 @@
 header('Content-Type: text/html; charset=utf-8');
 include("../../../conexion.php");
 
-$id_salon = isset($_GET['id_salon']) ? $conn->real_escape_string($_GET['id_salon']) : '';
-if (!$id_salon) { echo "<div class='alert alert-warning'>Falta el salón.</div>"; exit; }
+$id_salon = isset($_GET['id_salon']) ? trim($_GET['id_salon']) : '';
+if (!$id_salon) { 
+    echo "<div class='alert alert-warning'>Falta el salón.</div>"; 
+    exit; 
+}
 
-$info = $conn->query("
+// ✅ PREPARED STATEMENT para la primera consulta
+$stmt = $conn->prepare("
     SELECT sal.sal_nombre, niv.niv_nombre, sed.sed_nombre
     FROM siu_salon sal
     JOIN siu_nivel niv ON sal.niv_nivel = niv.niv_nivel
     JOIN siu_sede  sed ON sal.sed_sede  = sed.sed_sede
-    WHERE sal.sal_salon = '$id_salon'
-")->fetch_assoc();
+    WHERE sal.sal_salon = ?
+");
+$stmt->bind_param("s", $id_salon);
+$stmt->execute();
+$result = $stmt->get_result();
 
-$sql = "
+if ($result->num_rows === 0) {
+    echo "<div class='alert alert-warning'>Salón no encontrado.</div>";
+    exit;
+}
+$info = $result->fetch_assoc();
+$stmt->close();
+
+//  PREPARED STATEMENT para la segunda consulta
+$stmt = $conn->prepare("
     SELECT u.usu_nombre, u.usu_apellido, u.usu_identificador,
            t.tiu_descripcion AS tipo,
            c.cur_nombre, a.asi_fecha, a.asi_presente
@@ -21,11 +36,14 @@ $sql = "
     JOIN siu_usuario      u ON a.usu_usuario     = u.usu_usuario
     JOIN siu_tipo_usuario t ON u.tiu_tipo_usuario = t.tiu_tipo_usuario
     JOIN siu_curso        c ON a.cur_curso        = c.cur_curso
-    WHERE c.sal_salon = '$id_salon'
+    WHERE c.sal_salon = ?
     ORDER BY t.tiu_tipo_usuario ASC, u.usu_apellido ASC
-";
-
-$filas = $conn->query($sql)->fetch_all(MYSQLI_ASSOC);
+");
+$stmt->bind_param("s", $id_salon);
+$stmt->execute();
+$result = $stmt->get_result();
+$filas = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
 
 <div class="rep-info-bar mt-3">
