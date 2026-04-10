@@ -33,8 +33,8 @@
                 <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarDashboard()">Dashboard</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarRegistro()">Registro de personas</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Búsqueda de personas registradas</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Ingreso por puerta</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Ingreso por salón</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoPuerta()">Ingreso por puerta</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoSalon()">Ingreso por salón</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Entrar modelo</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Arbol de Asistencias</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Restricciones</a></li>
@@ -119,6 +119,61 @@ function mostrarReporteFecha() {
                 newScript.textContent = oldScript.textContent;
                 document.body.appendChild(newScript);
             });
+        });
+}
+</script>
+
+<script>
+function mostrarIngresoPuerta() {
+    fetch("ingreso_puerta.php")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+
+            // Ahora sí: enganchar el evento del formulario
+            const form = document.getElementById("formFiltros");
+            if(form){
+                form.addEventListener("submit", function(e){
+                    e.preventDefault();
+                    const formData = new FormData(form);
+
+                    fetch("ingreso_puerta_ajax.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(html => {
+                        document.getElementById("tablaResultados").innerHTML = html;
+                    })
+                    .catch(err => console.error("Error cargando resultados:", err));
+                });
+            }
+        });
+}
+</script>
+<script>
+function mostrarIngresoSalon() {
+    fetch("ingreso_salon.php")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+
+            const form = document.getElementById("formSalon");
+            if(form){
+                form.addEventListener("submit", function(e){
+                    e.preventDefault();
+                    const formData = new FormData(form);
+
+                    fetch("ingreso_salon_ajax.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(html => {
+                        document.getElementById("tablaSalon").innerHTML = html;
+                    });
+                });
+            }
         });
 }
 </script>
