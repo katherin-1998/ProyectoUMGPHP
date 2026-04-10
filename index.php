@@ -40,22 +40,22 @@ if(!isset($_SESSION['usu_id'])){
         <!-- Menú lateral -->
         <div class="col-md-2 sidebar p-3 text-center">
            <!-- ANTES: foto hardcodeada siempre mostraba la misma imagen -->
- <img src="IMG/Administrador.png" alt="Administrador" class="user-photo"> 
+ <!--  <img src="IMG/Administrador.png" alt="Administrador" class="user-photo"> -->
 
 <!-- AHORA: muestra la foto del usuario desde sesión, si no tiene foto usa la imagen por defecto -->
- <!--  <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo"> -->
+ <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo"> 
            
 
 <!-- ANTES: nombre hardcodeado siempre mostraba "Administrador" -->
- <p class="text-white fw-bold">Administrador</p>
+ <!--<p class="text-white fw-bold">Administrador</p> -->
 
 <!-- AHORA: muestra el nombre y apellido del usuario desde sesión -->
-<!-- <p class="text-white fw-bold">
-    <?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?> -->
+ <p class="text-white fw-bold">
+    <?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?>
 </p> 
 
  <!-- Datos adicionales del usuario desde sesión -->
-<!-- <p class="text-white" style="font-size: 0.8rem;">
+ <p class="text-white" style="font-size: 0.8rem;">
   <?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?>
 </p>
 <p class="text-white" style="font-size: 0.8rem;">   <?php echo $_SESSION['usu_correo']; ?>
@@ -68,7 +68,7 @@ if(!isset($_SESSION['usu_id'])){
 </p>
 <p class="text-white" style="font-size: 0.8rem;">
     <?php echo $_SESSION['usu_telefono']; ?>
-</p> -->
+</p> 
 
 
 
