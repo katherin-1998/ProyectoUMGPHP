@@ -12,13 +12,52 @@ if(!isset($_SESSION['usu_id'])){
     <meta charset="UTF-8">
     <title>Dashboard BiometricUMG</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body { background-color: #000; }
-        .sidebar { background-color: #001f3f; min-height: 100vh; }
-        .sidebar .nav-link { color: #fff; padding: 12px; margin: 4px 0; border-radius: 4px; }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active { background-color: #3399ff; color: #000; }
-        .user-photo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
-        table img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+<style>
+        /* Fondo general claro estilo AdminKit */
+        body { 
+            background-color: #f5f7fb; 
+            color: #495057; 
+        }
+
+        /* Menú lateral profesional (Azul oscuro profundo) */
+        .sidebar { 
+            background-color: #222e3c; 
+            min-height: 100vh; 
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+
+        /* Enlaces del menú lateral */
+        .sidebar .nav-link { 
+            color: rgba(255, 255, 255, .75); 
+            padding: 12px; 
+            margin: 4px 10px; 
+            border-radius: 4px; 
+            font-size: 0.9rem;
+        }
+
+        /* Estado activo o hover (como tu referencia) */
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { 
+            background-color: rgba(255, 255, 255, 0.1); 
+            color: #fff; 
+            border-left: 3px solid #3b7ddd; /* Detalle de línea azul */
+        }
+
+        /* Ajuste del contenido principal (Ahora es oscuro sobre fondo claro) */
+        .col-md-10 {
+            color: #3e465b !important;
+        }
+
+        /* El contenedor blanco para el calendario y bienvenida */
+        #contenido {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 0.875rem 0 rgba(33, 37, 41, 0.05);
+            margin-top: 10px;
+        }
+
+        .user-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid rgba(255,255,255,0.1); }
+        table img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -26,6 +65,7 @@ if(!isset($_SESSION['usu_id'])){
 <div class="container-fluid">
     <div class="row">
         <!-- Menú lateral -->
+        
         <div class="col-md-2 sidebar p-3 text-center">
             <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo">
             <p class="text-white fw-bold"><?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?></p>
@@ -40,7 +80,8 @@ if(!isset($_SESSION['usu_id'])){
         </div>
 
         <!-- Contenido principal -->
-        <div class="col-md-10 p-4 text-white">
+         
+        <div class="col-md-10 p-4">
             <div class="d-flex justify-content-end mb-3">
                 <a href="cerrar_sesion_be.php" class="btn btn-danger">Cerrar sesión</a>
             </div>
