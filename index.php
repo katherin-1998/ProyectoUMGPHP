@@ -5,6 +5,18 @@
 //    exit();
 //}
 //include("conexion.php");
+
+//lo que to debo agregar
+// AHORA: se activa la sesión y se valida con la variable correcta
+/*session_start();
+if(!isset($_SESSION['usu_id'])){
+    header("Location: login.php");
+    exit();
+}
+// =========================================
+?>*/
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -27,8 +39,39 @@
     <div class="row">
         <!-- Menú lateral -->
         <div class="col-md-2 sidebar p-3 text-center">
-            <img src="IMG/Administrador.png" alt="Administrador" class="user-photo">
-            <p class="text-white fw-bold">Administrador</p>
+           <!-- ANTES: foto hardcodeada siempre mostraba la misma imagen -->
+ <!--  <img src="IMG/Administrador.png" alt="Administrador" class="user-photo"> -->
+
+<!-- AHORA: muestra la foto del usuario desde sesión, si no tiene foto usa la imagen por defecto -->
+ <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo"> 
+           
+
+<!-- ANTES: nombre hardcodeado siempre mostraba "Administrador" -->
+ <!--<p class="text-white fw-bold">Administrador</p> -->
+
+<!-- AHORA: muestra el nombre y apellido del usuario desde sesión -->
+ <p class="text-white fw-bold">
+    <?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?>
+</p> 
+
+ <!-- Datos adicionales del usuario desde sesión -->
+ <p class="text-white" style="font-size: 0.8rem;">
+  <?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?>
+</p>
+<p class="text-white" style="font-size: 0.8rem;">   <?php echo $_SESSION['usu_correo']; ?>
+</p>
+<p class="text-white" style="font-size: 0.8rem;">
+    <?php echo $_SESSION['usu_tipo_desc']; ?>
+</p>
+<p class="text-white" style="font-size: 0.8rem;">
+    <?php echo $_SESSION['usu_carnet']; ?>
+</p>
+<p class="text-white" style="font-size: 0.8rem;">
+    <?php echo $_SESSION['usu_telefono']; ?>
+</p> 
+
+
+
             <ul class="nav flex-column mt-3">
                 <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarDashboard()">Dashboard</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarRegistro()">Registro de personas</a></li>
@@ -52,8 +95,12 @@
             </div>
 
             <!-- Área dinámica -->
-            <div id="contenido">
-                <h2>Bienvenido al sistema</h2>
+<!-- ANTES: mensaje generico -->
+<h2>Bienvenido al sistema</h2>
+
+<!-- AHORA: mensaje personalizado con el nombre del usuario -->
+<!-- <h2>Bienvenido, <?php echo $_SESSION['usu_nombre']; ?></h2>--> 
+            
                 <p><?php echo date("l, d F Y"); ?></p>
                 <div class="alert alert-info text-dark">
                     <strong>Próximas capacitaciones:</strong> Aquí puedes mostrar información sobre cursos, talleres o eventos próximos.
