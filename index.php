@@ -29,23 +29,11 @@ if(!isset($_SESSION['usu_id'])){
         <div class="col-md-2 sidebar p-3 text-center">
             <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo">
             <p class="text-white fw-bold"><?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?></p>
-            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_correo']; ?></p>
-            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_tipo_desc']; ?></p>
-            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_carnet']; ?></p>
-            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_telefono']; ?></p>
-
             <ul class="nav flex-column mt-3">
                 <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarDashboard(); return false;">Dashboard</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarRegistro(); return false;">Registro de personas</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Búsqueda de personas registradas</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoPuerta(); return false;">Ingreso por puerta</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoSalon(); return false;">Ingreso por salón</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Entrar modelo</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Arbol de Asistencias</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Restricciones</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Gestión de cursos</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Reportes por puerta</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteSalon(); return false;">Reportes por salón</a></li>
+<li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteSalon(); return false;">Reportes por salón</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteFecha(); return false;">Reportes por fecha y salón</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarPanelCatedratico(); return false;">Panel Catedrático</a></li>
             </ul>
@@ -57,7 +45,6 @@ if(!isset($_SESSION['usu_id'])){
                 <a href="cerrar_sesion_be.php" class="btn btn-danger">Cerrar sesión</a>
             </div>
 
-            <!-- ✅ CORREGIDO: id="contenido" que faltaba -->
             <div id="contenido">
                 <h2>Bienvenido, <?php echo $_SESSION['usu_nombre']; ?></h2>
                 <p><?php echo date("l, d F Y"); ?></p>
@@ -73,7 +60,6 @@ if(!isset($_SESSION['usu_id'])){
 </div>
 
 <script>
-// ✅ Función reutilizable para cargar páginas y re-ejecutar sus scripts
 function cargarContenido(url) {
     fetch(url)
         .then(res => {
@@ -82,7 +68,6 @@ function cargarContenido(url) {
         })
         .then(html => {
             document.getElementById("contenido").innerHTML = html;
-            // Re-ejecutar scripts embebidos en el HTML cargado
             const tempDiv = document.createElement("div");
             tempDiv.innerHTML = html;
             tempDiv.querySelectorAll("script").forEach(oldScript => {
@@ -107,11 +92,6 @@ function mostrarDashboard() {
     `;
 }
 
-function mostrarRegistro() {
-    cargarContenido("tabla_registro.php");
-}
-
-// ✅ Sin duplicado — solo una definición
 function mostrarIngresoPuerta() {
     fetch("ingreso_puerta.php")
         .then(res => {
@@ -134,7 +114,6 @@ function mostrarIngresoPuerta() {
         .catch(err => console.error("Error cargando ingreso_puerta.php:", err));
 }
 
-// ✅ Sin duplicado — solo una definición
 function mostrarIngresoSalon() {
     fetch("ingreso_salon.php")
         .then(res => {
