@@ -1,22 +1,9 @@
 <?php
-//session_start();
-//if(!isset($_SESSION['usuario'])){
-//    header("Location: login.php");
-//    exit();
-//}
-//include("conexion.php");
-
-//lo que to debo agregar
-// AHORA: se activa la sesión y se valida con la variable correcta
-/*session_start();
+session_start();
 if(!isset($_SESSION['usu_id'])){
     header("Location: login.php");
     exit();
 }
-// =========================================
-?>*/
-
-
 ?>
 
 <!DOCTYPE html>
@@ -40,54 +27,27 @@ if(!isset($_SESSION['usu_id'])){
     <div class="row">
         <!-- Menú lateral -->
         <div class="col-md-2 sidebar p-3 text-center">
-           <!-- ANTES: foto hardcodeada siempre mostraba la misma imagen -->
- <!--  <img src="IMG/Administrador.png" alt="Administrador" class="user-photo"> -->
-
-<!-- AHORA: muestra la foto del usuario desde sesión, si no tiene foto usa la imagen por defecto -->
- <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo"> 
-           
-
-<!-- ANTES: nombre hardcodeado siempre mostraba "Administrador" -->
- <!--<p class="text-white fw-bold">Administrador</p> -->
-
-<!-- AHORA: muestra el nombre y apellido del usuario desde sesión -->
- <p class="text-white fw-bold">
-    <?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?>
-</p> 
-
- <!-- Datos adicionales del usuario desde sesión -->
- <p class="text-white" style="font-size: 0.8rem;">
-  <?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?>
-</p>
-<p class="text-white" style="font-size: 0.8rem;">   <?php echo $_SESSION['usu_correo']; ?>
-</p>
-<p class="text-white" style="font-size: 0.8rem;">
-    <?php echo $_SESSION['usu_tipo_desc']; ?>
-</p>
-<p class="text-white" style="font-size: 0.8rem;">
-    <?php echo $_SESSION['usu_carnet']; ?>
-</p>
-<p class="text-white" style="font-size: 0.8rem;">
-    <?php echo $_SESSION['usu_telefono']; ?>
-</p> 
-
-
+            <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo">
+            <p class="text-white fw-bold"><?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?></p>
+            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_correo']; ?></p>
+            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_tipo_desc']; ?></p>
+            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_carnet']; ?></p>
+            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_telefono']; ?></p>
 
             <ul class="nav flex-column mt-3">
-                <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarDashboard()">Dashboard</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarRegistro()">Registro de personas</a></li>
+                <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarDashboard(); return false;">Dashboard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarRegistro(); return false;">Registro de personas</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Búsqueda de personas registradas</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoPuerta()">Ingreso por puerta</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoSalon()">Ingreso por salón</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoPuerta(); return false;">Ingreso por puerta</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoSalon(); return false;">Ingreso por salón</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Entrar modelo</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Arbol de Asistencias</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Restricciones</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Gestión de cursos</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Reportes por puerta</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteSalon()">Reportes por salón</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteFecha()">Reportes por fecha y salón</a></li>
-                <!-- ✅ NUEVO: Panel Catedrático -->
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarPanelCatedratico()">Panel Catedrático</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteSalon(); return false;">Reportes por salón</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteFecha(); return false;">Reportes por fecha y salón</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarPanelCatedratico(); return false;">Panel Catedrático</a></li>
             </ul>
         </div>
 
@@ -97,19 +57,15 @@ if(!isset($_SESSION['usu_id'])){
                 <a href="cerrar_sesion_be.php" class="btn btn-danger">Cerrar sesión</a>
             </div>
 
-            <!-- Área dinámica -->
-<!-- ANTES: mensaje generico -->
-<h2>Bienvenido al sistema</h2>
-
-<!-- AHORA: mensaje personalizado con el nombre del usuario -->
-<!-- <h2>Bienvenido, <?php echo $_SESSION['usu_nombre']; ?></h2>--> 
-            
+            <!-- ✅ CORREGIDO: id="contenido" que faltaba -->
+            <div id="contenido">
+                <h2>Bienvenido, <?php echo $_SESSION['usu_nombre']; ?></h2>
                 <p><?php echo date("l, d F Y"); ?></p>
                 <div class="alert alert-info text-dark">
                     <strong>Próximas capacitaciones:</strong> Aquí puedes mostrar información sobre cursos, talleres o eventos próximos.
                 </div>
                 <h3 class="mt-4">Calendario</h3>
-                <iframe src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=America%2FGuatemala" 
+                <iframe src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=America%2FGuatemala"
                         style="border:0" width="100%" height="400" frameborder="0" scrolling="no"></iframe>
             </div>
         </div>
@@ -117,12 +73,16 @@ if(!isset($_SESSION['usu_id'])){
 </div>
 
 <script>
-// Función reutilizable para cargar páginas y re-ejecutar sus scripts
+// ✅ Función reutilizable para cargar páginas y re-ejecutar sus scripts
 function cargarContenido(url) {
     fetch(url)
-        .then(res => res.text())
+        .then(res => {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.text();
+        })
         .then(html => {
             document.getElementById("contenido").innerHTML = html;
+            // Re-ejecutar scripts embebidos en el HTML cargado
             const tempDiv = document.createElement("div");
             tempDiv.innerHTML = html;
             tempDiv.querySelectorAll("script").forEach(oldScript => {
@@ -130,28 +90,71 @@ function cargarContenido(url) {
                 newScript.textContent = oldScript.textContent;
                 document.body.appendChild(newScript);
             });
-        });
+        })
+        .catch(err => console.error("Error cargando " + url + ":", err));
 }
 
 function mostrarDashboard() {
     document.getElementById("contenido").innerHTML = `
-        <h2>Bienvenido al sistema</h2>
+        <h2>Bienvenido, <?php echo $_SESSION['usu_nombre']; ?></h2>
         <p><?php echo date("l, d F Y"); ?></p>
         <div class="alert alert-info text-dark">
             <strong>Próximas capacitaciones:</strong> Aquí puedes mostrar información sobre cursos, talleres o eventos próximos.
         </div>
         <h3 class="mt-4">Calendario</h3>
-        <iframe src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=America%2FGuatemala" 
+        <iframe src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=America%2FGuatemala"
                 style="border:0" width="100%" height="400" frameborder="0" scrolling="no"></iframe>
     `;
 }
 
 function mostrarRegistro() {
-    fetch("tabla_registro.php")
-        .then(res => res.text())
+    cargarContenido("tabla_registro.php");
+}
+
+// ✅ Sin duplicado — solo una definición
+function mostrarIngresoPuerta() {
+    fetch("ingreso_puerta.php")
+        .then(res => {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.text();
+        })
         .then(html => {
             document.getElementById("contenido").innerHTML = html;
-        });
+            const form = document.getElementById("formFiltros");
+            if (form) {
+                form.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    fetch("ingreso_puerta_ajax.php", { method: "POST", body: new FormData(form) })
+                        .then(res => res.text())
+                        .then(html => { document.getElementById("tablaResultados").innerHTML = html; })
+                        .catch(err => console.error("Error:", err));
+                });
+            }
+        })
+        .catch(err => console.error("Error cargando ingreso_puerta.php:", err));
+}
+
+// ✅ Sin duplicado — solo una definición
+function mostrarIngresoSalon() {
+    fetch("ingreso_salon.php")
+        .then(res => {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.text();
+        })
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+            const form = document.getElementById("formSalon");
+            if (form) {
+                form.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    fetch("ingreso_salon_ajax.php", { method: "POST", body: new FormData(form) })
+                        .then(res => res.text())
+                        .then(html => { document.getElementById("tablaSalon").innerHTML = html; })
+                        .catch(err => console.error("Error:", err));
+                });
+            }
+        })
+        .catch(err => console.error("Error cargando ingreso_salon.php:", err));
 }
 
 function mostrarReporteSalon() {
@@ -162,123 +165,10 @@ function mostrarReporteFecha() {
     cargarContenido("php/reporte_salon/reporte_fecha.php");
 }
 
-// ✅ NUEVA función
 function mostrarPanelCatedratico() {
     cargarContenido("php/panel_catedratico/index.php");
 }
 </script>
 
-<script>
-function mostrarIngresoPuerta() {
-    fetch("ingreso_puerta.php")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("contenido").innerHTML = html;
-
-            // Ahora sí: enganchar el evento del formulario
-            const form = document.getElementById("formFiltros");
-            if(form){
-                form.addEventListener("submit", function(e){
-                    e.preventDefault();
-                    const formData = new FormData(form);
-
-                    fetch("ingreso_puerta_ajax.php", {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(res => res.text())
-                    .then(html => {
-                        document.getElementById("tablaResultados").innerHTML = html;
-                    })
-                    .catch(err => console.error("Error cargando resultados:", err));
-                });
-            }
-        });
-}
-</script>
-<script>
-function mostrarIngresoSalon() {
-    fetch("ingreso_salon.php")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("contenido").innerHTML = html;
-
-            const form = document.getElementById("formSalon");
-            if(form){
-                form.addEventListener("submit", function(e){
-                    e.preventDefault();
-                    const formData = new FormData(form);
-
-                    fetch("ingreso_salon_ajax.php", {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(res => res.text())
-                    .then(html => {
-                        document.getElementById("tablaSalon").innerHTML = html;
-                    });
-                });
-            }
-        });
-}
-</script>
-
-<script>
-function mostrarIngresoPuerta() {
-    fetch("ingreso_puerta.php")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("contenido").innerHTML = html;
-
-            // Ahora sí: enganchar el evento del formulario
-            const form = document.getElementById("formFiltros");
-            if(form){
-                form.addEventListener("submit", function(e){
-                    e.preventDefault();
-                    const formData = new FormData(form);
-
-                    fetch("ingreso_puerta_ajax.php", {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(res => res.text())
-                    .then(html => {
-                        document.getElementById("tablaResultados").innerHTML = html;
-                    })
-                    .catch(err => console.error("Error cargando resultados:", err));
-                });
-            }
-        });
-}
-</script>
-<script>
-function mostrarIngresoSalon() {
-    fetch("ingreso_salon.php")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("contenido").innerHTML = html;
-
-            const form = document.getElementById("formSalon");
-            if(form){
-                form.addEventListener("submit", function(e){
-                    e.preventDefault();
-                    const formData = new FormData(form);
-
-                    fetch("ingreso_salon_ajax.php", {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(res => res.text())
-                    .then(html => {
-                        document.getElementById("tablaSalon").innerHTML = html;
-                    });
-                });
-            }
-        });
-}
-</script>
-
 </body>
 </html>
-
-
