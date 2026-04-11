@@ -1,7 +1,7 @@
 <?php
 include("conexion.php");
 
-$filtroSede = isset($_POST['sede']) ? $_POST['sede'] : '';
+$filtroSede  = isset($_POST['sede'])  ? $_POST['sede']  : '';
 $filtroFecha = isset($_POST['fecha']) ? $_POST['fecha'] : '';
 
 if ($filtroSede != '' && $filtroFecha != '') {
@@ -23,7 +23,19 @@ if ($filtroSede != '' && $filtroFecha != '') {
 
     $result = mysqli_query($conn, $query);
 
-    echo '<table class="table table-dark table-striped table-bordered align-middle">';
+    echo '<style>
+        .rep-table-wrap { overflow-x:auto; margin-top:20px; }
+        .rep-table { width:100%; border-collapse:collapse; font-size:0.88rem; color:#1a2a3a; }
+        .rep-table thead tr { background:#e8f0fb; color:#1a4a8a; text-transform:uppercase; font-size:0.75rem; letter-spacing:.05em; }
+        .rep-table th, .rep-table td { padding:10px 14px; border-bottom:1px solid #e0e8f0; white-space:nowrap; }
+        .rep-table tbody tr:hover { background:#f0f6ff; }
+        .rep-table tbody tr:nth-child(even) { background:#f8fafc; }
+        .rep-count { font-size:0.8rem; color:#5a7a95; margin-top:10px; text-align:right; }
+    </style>';
+
+    $total = mysqli_num_rows($result);
+    echo '<div class="rep-table-wrap">';
+    echo '<table class="rep-table">';
     echo '<thead><tr>
             <th>Sede</th>
             <th>Puerta</th>
@@ -34,8 +46,8 @@ if ($filtroSede != '' && $filtroFecha != '') {
             <th>Foto</th>
           </tr></thead><tbody>';
 
-    if(mysqli_num_rows($result) > 0){
-        while($row = mysqli_fetch_assoc($result)){
+    if ($total > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
             echo '<tr>
                     <td>'.$row['sede'].'</td>
                     <td>'.$row['puerta'].'</td>
@@ -44,22 +56,22 @@ if ($filtroSede != '' && $filtroFecha != '') {
                     <td>'.$row['usu_apellido'].'</td>
                     <td>'.$row['hora'].'</td>
                     <td>';
-            if($row['usu_foto']){
-                echo '<img src="IMG/'.$row['usu_foto'].'" 
-                           alt="Foto" 
-                           class="img-thumbnail rounded-circle" 
-                           style="width:40px; height:40px; object-fit:cover;">';
+            if ($row['usu_foto']) {
+                echo '<img src="IMG/'.$row['usu_foto'].'" alt="Foto"
+                           style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid #b0c4d8;">';
             } else {
-                echo '<span class="text-muted">Sin foto</span>';
+                echo '<span style="color:#5a7a95;font-size:0.8rem;">Sin foto</span>';
             }
             echo '</td></tr>';
         }
     } else {
-        echo '<tr><td colspan="7" class="text-center text-warning">No se encontraron registros</td></tr>';
+        echo '<tr><td colspan="7" style="text-align:center;padding:20px;color:#5a7a95;">No se encontraron registros</td></tr>';
     }
 
     echo '</tbody></table>';
+    echo '<p class="rep-count">Total de registros: <strong>'.$total.'</strong></p>';
+    echo '</div>';
 } else {
-    echo "<p class='text-muted'>Seleccione sede y fecha para ver los ingresos.</p>";
+    echo "<p style='color:#5a7a95;padding:20px;text-align:center;'>Seleccione sede y fecha para ver los ingresos.</p>";
 }
 ?>
