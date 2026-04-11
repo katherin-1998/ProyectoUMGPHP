@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-include($_SERVER['DOCUMENT_ROOT'] . "/ProyectoUMGPHP/conexion.php");
+include($_SERVER['DOCUMENT_ROOT'] . "/conexion.php");
 $id_usuario_actual = 52;
 ?>
 
