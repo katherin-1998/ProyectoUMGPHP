@@ -18,6 +18,7 @@ if(!isset($_SESSION['usu_id'])){
 
 
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -85,6 +86,8 @@ if(!isset($_SESSION['usu_id'])){
                 <li class="nav-item"><a href="#" class="nav-link">Reportes por puerta</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteSalon()">Reportes por salón</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteFecha()">Reportes por fecha y salón</a></li>
+                <!-- ✅ NUEVO: Panel Catedrático -->
+                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarPanelCatedratico()">Panel Catedrático</a></li>
             </ul>
         </div>
 
@@ -114,6 +117,22 @@ if(!isset($_SESSION['usu_id'])){
 </div>
 
 <script>
+// Función reutilizable para cargar páginas y re-ejecutar sus scripts
+function cargarContenido(url) {
+    fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+            tempDiv.querySelectorAll("script").forEach(oldScript => {
+                const newScript = document.createElement("script");
+                newScript.textContent = oldScript.textContent;
+                document.body.appendChild(newScript);
+            });
+        });
+}
+
 function mostrarDashboard() {
     document.getElementById("contenido").innerHTML = `
         <h2>Bienvenido al sistema</h2>
@@ -136,36 +155,70 @@ function mostrarRegistro() {
 }
 
 function mostrarReporteSalon() {
-    fetch("php/reporte_salon/index.php")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("contenido").innerHTML = html;
-
-            // Ejecutar el script inline que viene dentro del HTML cargado
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = html;
-            tempDiv.querySelectorAll("script").forEach(oldScript => {
-                const newScript = document.createElement("script");
-                newScript.textContent = oldScript.textContent;
-                document.body.appendChild(newScript);
-            });
-        });
+    cargarContenido("php/reporte_salon/index.php");
 }
 
 function mostrarReporteFecha() {
-    fetch("php/reporte_salon/reporte_fecha.php")
+    cargarContenido("php/reporte_salon/reporte_fecha.php");
+}
+
+// ✅ NUEVA función
+function mostrarPanelCatedratico() {
+    cargarContenido("php/panel_catedratico/index.php");
+}
+</script>
+
+<script>
+function mostrarIngresoPuerta() {
+    fetch("ingreso_puerta.php")
         .then(res => res.text())
         .then(html => {
             document.getElementById("contenido").innerHTML = html;
 
-            // Re-ejecutar scripts inline (necesario porque innerHTML no los activa)
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = html;
-            tempDiv.querySelectorAll("script").forEach(oldScript => {
-                const newScript = document.createElement("script");
-                newScript.textContent = oldScript.textContent;
-                document.body.appendChild(newScript);
-            });
+            // Ahora sí: enganchar el evento del formulario
+            const form = document.getElementById("formFiltros");
+            if(form){
+                form.addEventListener("submit", function(e){
+                    e.preventDefault();
+                    const formData = new FormData(form);
+
+                    fetch("ingreso_puerta_ajax.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(html => {
+                        document.getElementById("tablaResultados").innerHTML = html;
+                    })
+                    .catch(err => console.error("Error cargando resultados:", err));
+                });
+            }
+        });
+}
+</script>
+<script>
+function mostrarIngresoSalon() {
+    fetch("ingreso_salon.php")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+
+            const form = document.getElementById("formSalon");
+            if(form){
+                form.addEventListener("submit", function(e){
+                    e.preventDefault();
+                    const formData = new FormData(form);
+
+                    fetch("ingreso_salon_ajax.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(html => {
+                        document.getElementById("tablaSalon").innerHTML = html;
+                    });
+                });
+            }
         });
 }
 </script>
@@ -227,3 +280,5 @@ function mostrarIngresoSalon() {
 
 </body>
 </html>
+
+
