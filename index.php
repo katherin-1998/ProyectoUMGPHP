@@ -12,52 +12,13 @@ if(!isset($_SESSION['usu_id'])){
     <meta charset="UTF-8">
     <title>Dashboard BiometricUMG</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-<style>
-        /* Fondo general claro estilo AdminKit */
-        body { 
-            background-color: #f5f7fb; 
-            color: #495057; 
-        }
-
-        /* Menú lateral profesional (Azul oscuro profundo) */
-        .sidebar { 
-            background-color: #222e3c; 
-            min-height: 100vh; 
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
-
-        /* Enlaces del menú lateral */
-        .sidebar .nav-link { 
-            color: rgba(255, 255, 255, .75); 
-            padding: 12px; 
-            margin: 4px 10px; 
-            border-radius: 4px; 
-            font-size: 0.9rem;
-        }
-
-        /* Estado activo o hover (como tu referencia) */
-        .sidebar .nav-link:hover, .sidebar .nav-link.active { 
-            background-color: rgba(255, 255, 255, 0.1); 
-            color: #fff; 
-            border-left: 3px solid #3b7ddd; /* Detalle de línea azul */
-        }
-
-        /* Ajuste del contenido principal (Ahora es oscuro sobre fondo claro) */
-        .col-md-10 {
-            color: #3e465b !important;
-        }
-
-        /* El contenedor blanco para el calendario y bienvenida */
-        #contenido {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 0.875rem 0 rgba(33, 37, 41, 0.05);
-            margin-top: 10px;
-        }
-
-        .user-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid rgba(255,255,255,0.1); }
-        table img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+    <style>
+        body { background-color: #f6f6f6; }
+        .sidebar { background-color: #030724; min-height: 100vh; }
+        .sidebar .nav-link { color: #fff; padding: 12px; margin: 4px 0; border-radius: 4px; }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { background-color: #3399ff; color: #000; }
+        .user-photo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
+        table img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -65,42 +26,36 @@ if(!isset($_SESSION['usu_id'])){
 <div class="container-fluid">
     <div class="row">
         <!-- Menú lateral -->
-        
         <div class="col-md-2 sidebar p-3 text-center">
             <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo">
             <p class="text-white fw-bold"><?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?></p>
             <ul class="nav flex-column mt-3">
-                <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarDashboard(); return false;">Dashboard</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoPuerta(); return false;">Ingreso por puerta</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoSalon(); return false;">Ingreso por salón</a></li>
 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteSalon(); return false;">Reportes por salón</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarReporteFecha(); return false;">Reportes por fecha y salón</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarPanelCatedratico(); return false;">Panel Catedrático</a></li>
+                <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarPanelCatedratico(); return false;">Panel Catedrático</a></li>
             </ul>
         </div>
 
         <!-- Contenido principal -->
-         
-        <div class="col-md-10 p-4">
+        <div class="col-md-10 p-4 text-white">
             <div class="d-flex justify-content-end mb-3">
                 <a href="cerrar_sesion_be.php" class="btn btn-danger">Cerrar sesión</a>
             </div>
 
             <div id="contenido">
-                <h2>Bienvenido, <?php echo $_SESSION['usu_nombre']; ?></h2>
-                <p><?php echo date("l, d F Y"); ?></p>
-                <div class="alert alert-info text-dark">
-                    <strong>Próximas capacitaciones:</strong> Aquí puedes mostrar información sobre cursos, talleres o eventos próximos.
-                </div>
-                <h3 class="mt-4">Calendario</h3>
-                <iframe src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=America%2FGuatemala"
-                        style="border:0" width="100%" height="400" frameborder="0" scrolling="no"></iframe>
+                <!-- Panel Catedrático se carga automáticamente -->
             </div>
         </div>
     </div>
 </div>
 
 <script>
+window.addEventListener("DOMContentLoaded", function() {
+    mostrarPanelCatedratico();
+});
+
 function cargarContenido(url) {
     fetch(url)
         .then(res => {
@@ -118,19 +73,6 @@ function cargarContenido(url) {
             });
         })
         .catch(err => console.error("Error cargando " + url + ":", err));
-}
-
-function mostrarDashboard() {
-    document.getElementById("contenido").innerHTML = `
-        <h2>Bienvenido, <?php echo $_SESSION['usu_nombre']; ?></h2>
-        <p><?php echo date("l, d F Y"); ?></p>
-        <div class="alert alert-info text-dark">
-            <strong>Próximas capacitaciones:</strong> Aquí puedes mostrar información sobre cursos, talleres o eventos próximos.
-        </div>
-        <h3 class="mt-4">Calendario</h3>
-        <iframe src="https://calendar.google.com/calendar/embed?src=tu_correo%40gmail.com&ctz=America%2FGuatemala"
-                style="border:0" width="100%" height="400" frameborder="0" scrolling="no"></iframe>
-    `;
 }
 
 function mostrarIngresoPuerta() {
