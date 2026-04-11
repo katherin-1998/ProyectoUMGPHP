@@ -223,6 +223,61 @@ function mostrarIngresoSalon() {
 }
 </script>
 
+<script>
+function mostrarIngresoPuerta() {
+    fetch("ingreso_puerta.php")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+
+            // Ahora sí: enganchar el evento del formulario
+            const form = document.getElementById("formFiltros");
+            if(form){
+                form.addEventListener("submit", function(e){
+                    e.preventDefault();
+                    const formData = new FormData(form);
+
+                    fetch("ingreso_puerta_ajax.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(html => {
+                        document.getElementById("tablaResultados").innerHTML = html;
+                    })
+                    .catch(err => console.error("Error cargando resultados:", err));
+                });
+            }
+        });
+}
+</script>
+<script>
+function mostrarIngresoSalon() {
+    fetch("ingreso_salon.php")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("contenido").innerHTML = html;
+
+            const form = document.getElementById("formSalon");
+            if(form){
+                form.addEventListener("submit", function(e){
+                    e.preventDefault();
+                    const formData = new FormData(form);
+
+                    fetch("ingreso_salon_ajax.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(html => {
+                        document.getElementById("tablaSalon").innerHTML = html;
+                    });
+                });
+            }
+        });
+}
+</script>
+
 </body>
 </html>
 
