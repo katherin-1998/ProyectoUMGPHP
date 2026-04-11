@@ -29,11 +29,6 @@ if(!isset($_SESSION['usu_id'])){
         <div class="col-md-2 sidebar p-3 text-center">
             <img src="<?php echo !empty($_SESSION['usu_foto']) ? $_SESSION['usu_foto'] : 'IMG/Administrador.png'; ?>" alt="Foto" class="user-photo">
             <p class="text-white fw-bold"><?php echo $_SESSION['usu_nombre'].' '.$_SESSION['usu_apellido']; ?></p>
-            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_correo']; ?></p>
-            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_tipo_desc']; ?></p>
-            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_carnet']; ?></p>
-            <p class="text-white" style="font-size: 0.8rem;"><?php echo $_SESSION['usu_telefono']; ?></p>
-
             <ul class="nav flex-column mt-3">
                 <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarDashboard(); return false;">Dashboard</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarIngresoPuerta(); return false;">Ingreso por puerta</a></li>

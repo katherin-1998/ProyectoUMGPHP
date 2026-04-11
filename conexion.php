@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $user = "root";
-$pass = "";
+$pass = "UX6ClfMEE7";
 $db   = "sistema_umg";
 
 $conn = mysqli_connect($host, $user, $pass, $db);
